@@ -9,6 +9,78 @@
 #include <algorithm>
 using namespace std;
 
+void transform(string x, string ops[4])			// Здесь ошибка
+{
+	ops[0] = x;
+	for (int i = 1; i < 4; i++)
+		for (int j = 0; j < x.size(); j++)
+			switch (ops[i - 1][j])
+			{
+				case '1':
+					ops[i][j] = '3';
+					break;
+				case '2':
+					ops[i][j] = '6';
+					break;
+				case '3':
+					ops[i][j] = '9';
+					break;
+				case '4':
+					ops[i][j] = '2';
+					break;
+				case '6':
+					ops[i][j] = '8';
+					break;
+				case '7':
+					ops[i][j] = '1';
+					break;
+				case '8':
+					ops[i][j] = '4';
+					break;
+				case '9':
+					ops[i][j] = '7';
+					break;
+				default:
+					break;
+			}
+}
+
+string transform(string x, int p)
+{
+	for (int i = 0; i < p; i++)
+		for (int j = 0; j < x.size(); j++)
+			switch (x[j])
+			{
+			case '1':
+				x[j] = '3';
+				break;
+			case '2':
+				x[j] = '6';
+				break;
+			case '3':
+				x[j] = '9';
+				break;
+			case '4':
+				x[j] = '2';
+				break;
+			case '6':
+				x[j] = '8';
+				break;
+			case '7':
+				x[j] = '1';
+				break;
+			case '8':
+				x[j] = '4';
+				break;
+			case '9':
+				x[j] = '7';
+				break;
+			default: 
+				break;
+			}
+	return x;
+}
+
 bool END_GAME(char x[3][3])			// Функция проверки конца игры
 {
 	bool t = false;
@@ -47,6 +119,7 @@ void main()
 	string st;
 	bool t;
 	int k = 0, random;
+	string options[4];
 	char PLAYER_STEP;
 	char field[3][3] = { '7', '8', '9',
 						 '4', '5', '6',
@@ -59,7 +132,7 @@ void main()
 	}
 	IN.close();
 	st = "";
-	while ((END_GAME(field) == false) && (DRAW(field) == false))
+	while ((END_GAME(field) == false) && (DRAW(field) == false))		// Процесс игры пока не конец игры и не ничья
 	{
 		system("cls");
 		for (int i = 0; i <= 2; i++)									// Вывод поля
@@ -89,32 +162,41 @@ void main()
 		else if (EXP.size() != 0)
 		{
 			t = false;
-			for (int q = 0; q < EXP.size(); q++)
-				if ((EXP[q].find(st) == 0) && (EXP[q][EXP[q].size() - 1] == 'D'))
-				{
-					t = true;
-					for (int i = 0; i <= 2; i++)
-						for (int j = 0; j <= 2; j++) if (field[i][j] == EXP[q][k + 1])
-						{
-							st = st + field[i][j];
-							field[i][j] = 'X';
-						}
-					break;
-				}
-			if (t == false)
+			transform(st, options);
+			for (int p = 0; p < 4; p++)
 			{
 				for (int q = 0; q < EXP.size(); q++)
-					if ((EXP[q].find(st) == 0) && (EXP[q][EXP[q].size() - 1] == 'V'))
+					if ((EXP[q].find(options[p]) == 0) && (EXP[q][EXP[q].size() - 1] == 'D'))
 					{
 						t = true;
 						for (int i = 0; i <= 2; i++)
-							for (int j = 0; j <= 2; j++) if (field[i][j] == EXP[q][k])
+							for (int j = 0; j <= 2; j++) if (field[i][j] == transform(EXP[q], 4 - p)[k + 1])
 							{
 								st = st + field[i][j];
 								field[i][j] = 'X';
 							}
 						break;
 					}
+				if (t) break;
+			}
+			if (t == false)
+			{
+				for (int p = 0; p < 4; p++)
+				{
+					for (int q = 0; q < EXP.size(); q++)
+						if ((EXP[q].find(options[p]) == 0) && (EXP[q][EXP[q].size() - 1] == 'V'))
+						{
+							t = true;
+							for (int i = 0; i <= 2; i++)
+								for (int j = 0; j <= 2; j++) if (field[i][j] == transform(EXP[q], 4 - p)[k])
+								{
+									st = st + field[i][j];
+									field[i][j] = 'X';
+								}
+							break;
+						}
+					if (t) break;
+				}
 				while (t == false)
 				{
 					srand(static_cast<unsigned int>(time(0)));
@@ -155,7 +237,7 @@ void main()
 		for (int j = 0; j <= 2; j++) cout << field[i][j];
 		cout << endl;
 	}
-	if (END_GAME(field) == true)
+	if (END_GAME(field) == true)									// Конец игры, определение победителя
 	{
 		if (fmod(k, 2) == 1)
 		{
@@ -168,14 +250,14 @@ void main()
 			cout << "You lose!" << endl;
 		}
 	}
-	if ((END_GAME(field) == false) && DRAW(field) == true)
+	if ((END_GAME(field) == false) && DRAW(field) == true)			// Конец игры, ничья
 	{
 		st = st + 'N';
 		cout << "Draw!" << endl;
 	}
 	t = false;
-	for (int i = 0; i < EXP.size(); i++) if (EXP[i] == st) t = true;
-	if (t == false)
+	for (int i = 0; i < EXP.size(); i++) if (EXP[i] == st) t = true;	// Проверка сценария на известность
+	if (t == false)														// Запись сценария, если он новый
 	{
 		OUT.open("mem.txt");
 		EXP.push_back(st);
