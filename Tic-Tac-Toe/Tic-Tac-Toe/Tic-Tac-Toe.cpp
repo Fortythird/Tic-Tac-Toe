@@ -9,7 +9,7 @@
 #include <algorithm>
 using namespace std;
 
-void transform(string x, string ops[4])			// Здесь ошибка
+/*void transform(string x, string ops[4])			// Здесь ошибка
 {
 	ops[0] = x;
 	for (int i = 1; i < 4; i++)
@@ -79,7 +79,7 @@ string transform(string x, int p)
 				break;
 			}
 	return x;
-}
+}*/
 
 bool END_GAME(char x[3][3])			// Функция проверки конца игры
 {
@@ -162,33 +162,33 @@ void main()
 		else if (EXP.size() != 0)
 		{
 			t = false;
-			transform(st, options);
-			for (int p = 0; p < 4; p++)
-			{
+			//transform(st, options);
+			//for (int p = 0; p < 4; p++)
+			//{
 				for (int q = 0; q < EXP.size(); q++)
-					if ((EXP[q].find(options[p]) == 0) && (EXP[q][EXP[q].size() - 1] == 'D'))
+					if ((EXP[q].find(st/*options[p]*/) == 0) && (EXP[q][EXP[q].size() - 1] == 'D'))
 					{
 						t = true;
 						for (int i = 0; i <= 2; i++)
-							for (int j = 0; j <= 2; j++) if (field[i][j] == transform(EXP[q], 4 - p)[k + 1])
+							for (int j = 0; j <= 2; j++) if (field[i][j] == EXP[q][k + 1]/*transform(EXP[q], 4 - p)[k + 1]*/)
 							{
 								st = st + field[i][j];
 								field[i][j] = 'X';
 							}
 						break;
 					}
-				if (t) break;
-			}
+				//if (t) break;
+			//}
 			if (t == false)
 			{
-				for (int p = 0; p < 4; p++)
-				{
+				//for (int p = 0; p < 4; p++)
+				//{
 					for (int q = 0; q < EXP.size(); q++)
-						if ((EXP[q].find(options[p]) == 0) && (EXP[q][EXP[q].size() - 1] == 'V'))
+						if ((EXP[q].find(st/*options[p]*/) == 0) && (EXP[q][EXP[q].size() - 1] == 'V'))
 						{
 							t = true;
 							for (int i = 0; i <= 2; i++)
-								for (int j = 0; j <= 2; j++) if (field[i][j] == transform(EXP[q], 4 - p)[k])
+								for (int j = 0; j <= 2; j++) if (field[i][j] == EXP[q][k]/*transform(EXP[q], 4 - p)[k]*/)
 								{
 									st = st + field[i][j];
 									field[i][j] = 'X';
@@ -196,7 +196,7 @@ void main()
 							break;
 						}
 					if (t) break;
-				}
+				//}
 				while (t == false)
 				{
 					srand(static_cast<unsigned int>(time(0)));
