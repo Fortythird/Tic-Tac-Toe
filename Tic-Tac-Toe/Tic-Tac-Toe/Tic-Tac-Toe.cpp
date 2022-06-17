@@ -1,5 +1,4 @@
-﻿// Tic-Tac-Toe.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿//#define DEBUG 1;
 
 #include <iostream>
 #include <fstream>
@@ -9,77 +8,56 @@
 #include <algorithm>
 using namespace std;
 
-/*void transform(string x, string ops[4])			// Здесь ошибка
+string transform(string x)
 {
-	ops[0] = x;
-	for (int i = 1; i < 4; i++)
-		for (int j = 0; j < x.size(); j++)
-			switch (ops[i - 1][j])
-			{
-				case '1':
-					ops[i][j] = '3';
-					break;
-				case '2':
-					ops[i][j] = '6';
-					break;
-				case '3':
-					ops[i][j] = '9';
-					break;
-				case '4':
-					ops[i][j] = '2';
-					break;
-				case '6':
-					ops[i][j] = '8';
-					break;
-				case '7':
-					ops[i][j] = '1';
-					break;
-				case '8':
-					ops[i][j] = '4';
-					break;
-				case '9':
-					ops[i][j] = '7';
-					break;
-				default:
-					break;
-			}
-}
-
-string transform(string x, int p)
-{
-	for (int i = 0; i < p; i++)
-		for (int j = 0; j < x.size(); j++)
-			switch (x[j])
-			{
+	for (int j = 0; j < x.size(); j++)
+		switch (x[j])
+		{
 			case '1':
+			{
 				x[j] = '3';
 				break;
+			}
 			case '2':
+			{
 				x[j] = '6';
 				break;
+			}
 			case '3':
+			{
 				x[j] = '9';
 				break;
+			}
 			case '4':
+			{
 				x[j] = '2';
 				break;
+			}
 			case '6':
+			{
 				x[j] = '8';
 				break;
+			}
 			case '7':
+			{
 				x[j] = '1';
 				break;
+			}
 			case '8':
+			{
 				x[j] = '4';
 				break;
+			}
 			case '9':
+			{
 				x[j] = '7';
 				break;
-			default: 
-				break;
 			}
+			default:
+				break;
+		}
 	return x;
-}*/
+}
 
 bool END_GAME(char x[3][3])			// Функция проверки конца игры
 {
@@ -112,14 +90,55 @@ bool comp(string a, string b)
 	return a.length() < b.length();
 }
 
+void debug()
+{
+	ifstream IN;
+	string st;
+	vector<string> EXP;
+	IN.open("mem.txt");
+	while (getline(IN, st))
+	{
+		EXP.push_back(st);
+	}
+	IN.close();
+	st = "9";
+	for (int q = 0; q < EXP.size(); q++)
+	{
+		for (int r = 0; r < 4; r++)
+		{
+			if ((EXP[q].find(st) == 0) && (EXP[q][EXP[q].size() - 1] == 'D'))
+			{
+				cout << EXP[q] << endl;
+				string next_step = "";
+				next_step = EXP[q][st.size() + 1];
+				cout << r << endl;
+				cout << next_step << endl;
+				if (r != 0) for (int i = 0; i < 4 - r; i++)
+				{
+					cout << "test" << endl;
+					next_step = transform(next_step);
+				}
+				cout << next_step << endl;
+
+			}
+			st = transform(st);
+		}
+	}
+}
+
 void main()
 {
+#ifdef DEBUG
+	debug();
+#endif // DEBUG
+
+
+#ifndef DEBUG
 	ifstream IN;
 	ofstream OUT;
 	string st;
 	bool t;
 	int k = 0, random;
-	string options[4];
 	char PLAYER_STEP;
 	char field[3][3] = { '7', '8', '9',
 						 '4', '5', '6',
@@ -162,41 +181,52 @@ void main()
 		else if (EXP.size() != 0)
 		{
 			t = false;
-			//transform(st, options);
-			//for (int p = 0; p < 4; p++)
-			//{
+			for (int q = 0; q < EXP.size(); q++)
+			{
+				for (int r = 0; r < 4; r++)
+				{
+					if ((EXP[q].find(st) == 0) && (EXP[q][EXP[q].size() - 1] == 'D'))
+					{
+						t = true;
+						string next_step = "";
+						cout << "Switched!" << endl;
+						cout << "Match with game " << EXP[q] << endl;
+						cout << "Conerted scenario: " << st << endl;
+						next_step = EXP[q][st.size() + 1];
+						if (r != 0) for (int i = 0; i < 4 - r; i++)
+						{
+							next_step = transform(next_step);
+							st = transform(st);
+						}
+						for (int i = 0; i <= 2; i++)
+							for (int j = 0; j <= 2; j++) if (field[i][j] == next_step[0])
+							{
+								st = st + field[i][j];
+								field[i][j] = 'X';
+							}
+						cout << "Solution: " << st << endl;
+						system("pause");
+						break;
+					}
+					st = transform(st);
+				}
+				if (t) break;
+			}
+			if (t == false)
+			{
 				for (int q = 0; q < EXP.size(); q++)
-					if ((EXP[q].find(st/*options[p]*/) == 0) && (EXP[q][EXP[q].size() - 1] == 'D'))
+					if ((EXP[q].find(st) == 0) && (EXP[q][EXP[q].size() - 1] == 'V'))
 					{
 						t = true;
 						for (int i = 0; i <= 2; i++)
-							for (int j = 0; j <= 2; j++) if (field[i][j] == EXP[q][k + 1]/*transform(EXP[q], 4 - p)[k + 1]*/)
+							for (int j = 0; j <= 2; j++) if (field[i][j] == EXP[q][k])
 							{
 								st = st + field[i][j];
 								field[i][j] = 'X';
 							}
 						break;
 					}
-				//if (t) break;
-			//}
-			if (t == false)
-			{
-				//for (int p = 0; p < 4; p++)
-				//{
-					for (int q = 0; q < EXP.size(); q++)
-						if ((EXP[q].find(st/*options[p]*/) == 0) && (EXP[q][EXP[q].size() - 1] == 'V'))
-						{
-							t = true;
-							for (int i = 0; i <= 2; i++)
-								for (int j = 0; j <= 2; j++) if (field[i][j] == EXP[q][k]/*transform(EXP[q], 4 - p)[k]*/)
-								{
-									st = st + field[i][j];
-									field[i][j] = 'X';
-								}
-							break;
-						}
-					if (t) break;
-				//}
+				if (t) break;
 				while (t == false)
 				{
 					srand(static_cast<unsigned int>(time(0)));
@@ -267,4 +297,5 @@ void main()
 	}
 	system("pause");
 	main();
+#endif
 }
