@@ -6,6 +6,8 @@
 #include <vector>
 #include <ctime>
 #include <algorithm>
+#include <chrono>
+#include <thread>
 using namespace std;
 
 string transform(string x)
@@ -137,7 +139,7 @@ void main()
 	ifstream IN;
 	ofstream OUT;
 	string st;
-	bool t;
+	bool t, joke = false;
 	int k = 0, random;
 	char PLAYER_STEP;
 	char field[3][3] = { '7', '8', '9',
@@ -180,6 +182,25 @@ void main()
 		}
 		else if (EXP.size() != 0)
 		{
+			if (!joke && field[2][0] == field[1][0] && field[1][0] == 'X')
+			{
+				srand(static_cast<unsigned int>(time(0)));
+				random = rand();
+				random = random % 10;
+				if (random == 5)
+				{
+					joke = true;
+					cout << "X ";
+					this_thread::sleep_for(chrono::milliseconds(2000));
+					cout << "<";
+					cout << "- ";
+					this_thread::sleep_for(chrono::milliseconds(350));
+					cout << "you lose!";
+					this_thread::sleep_for(chrono::milliseconds(5000));
+					cout << endl << "Just kiddin' ))0" << endl;
+					this_thread::sleep_for(chrono::milliseconds(3000));
+				}
+			}
 			t = false;
 			for (int q = 0; q < EXP.size(); q++)
 			{
@@ -189,9 +210,8 @@ void main()
 					{
 						t = true;
 						string next_step = "";
-						cout << "Switched!" << endl;
-						cout << "Match with game " << EXP[q] << endl;
-						cout << "Conerted scenario: " << st << endl;
+						//cout << "Match with game " << EXP[q] << endl;
+						//cout << "Conertved scenario: " << st << endl;
 						next_step = EXP[q][st.size() + 1];
 						if (r != 0) for (int i = 0; i < 4 - r; i++)
 						{
@@ -204,8 +224,8 @@ void main()
 								st = st + field[i][j];
 								field[i][j] = 'X';
 							}
-						cout << "Solution: " << st << endl;
-						system("pause");
+						//cout << "Solution: " << st << endl;
+						//system("pause");
 						break;
 					}
 					st = transform(st);
@@ -271,7 +291,6 @@ void main()
 		if (fmod(k, 2) == 1)
 		{
 			st = st + 'D';
-			cout << k << endl;
 			cout << "You won!" << endl;
 		}
 		else
