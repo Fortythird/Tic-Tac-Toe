@@ -226,7 +226,6 @@ void main()
 							}
 						break;
 					}
-				if (t) break;
 				while (t == false)
 				{
 					srand(static_cast<unsigned int>(time(0)));
@@ -272,6 +271,7 @@ void main()
 		if (fmod(k, 2) == 1)
 		{
 			st = st + 'D';
+			cout << k << endl;
 			cout << "You won!" << endl;
 		}
 		else
