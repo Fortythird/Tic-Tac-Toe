@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <chrono>
 #include <thread>
+#include "Game.h"
 using namespace std;
 
 string transform(string x)
@@ -131,7 +132,9 @@ void debug()
 void main()
 {
 #ifdef DEBUG
-	debug();
+	//debug();
+	Game game;
+	game.Run();
 #endif // DEBUG
 
 
