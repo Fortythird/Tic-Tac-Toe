@@ -1,4 +1,4 @@
-﻿#define DEBUG 1;
+﻿//#define DEBUG 1;
 
 #include <iostream>
 #include <fstream>
@@ -142,7 +142,7 @@ void main()
 	ifstream IN;
 	ofstream OUT;
 	string st;
-	bool t, joke = false;
+	bool t, joke = false, isPlayerFirst = true;
 	int k = 0, random;
 	char PLAYER_STEP;
 	char field[3][3] = { '7', '8', '9',
@@ -156,6 +156,7 @@ void main()
 	}
 	IN.close();
 	st = "";
+	if (!isPlayerFirst) k++;
 	while ((END_GAME(field) == false) && (DRAW(field) == false))		// Процесс игры пока не конец игры и не ничья
 	{
 		system("cls");
@@ -209,7 +210,7 @@ void main()
 			{
 				for (int r = 0; r < 4; r++)
 				{
-					if ((EXP[q].find(st) == 0) && (EXP[q][EXP[q].size() - 1] == 'D'))
+					if ((EXP[q].find(st) == 0) && (isPlayerFirst && (EXP[q][EXP[q].size() - 1] == 'D') || !isPlayerFirst && (EXP[q][EXP[q].size() - 1] == 'V')))
 					{
 						t = true;
 						string next_step = "";
@@ -238,7 +239,7 @@ void main()
 			if (t == false)
 			{
 				for (int q = 0; q < EXP.size(); q++)
-					if ((EXP[q].find(st) == 0) && (EXP[q][EXP[q].size() - 1] == 'V'))
+					if ((EXP[q].find(st) == 0) && (isPlayerFirst && EXP[q][EXP[q].size() - 1] == 'V' || !isPlayerFirst && EXP[q][EXP[q].size() - 1] == 'D'))
 					{
 						t = true;
 						for (int i = 0; i <= 2; i++)

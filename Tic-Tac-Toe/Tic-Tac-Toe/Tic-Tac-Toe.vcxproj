@@ -151,12 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BotPlayer.cpp" />
+    <ClCompile Include="DummyBotPlayer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Tic-Tac-Toe.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BotPlayer.h" />
+    <ClInclude Include="DummyBotPlayer.h" />
     <ClInclude Include="Game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
