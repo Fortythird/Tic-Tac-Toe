@@ -1,8 +1,8 @@
-#include "Enemy.h"
+#include "DummyBotPlayer.h"
 
 unsigned long x = 123456789, y = 362436069, z = 521288629;
 
-Enemy::Enemy()
+DummyBotPlayer::DummyBotPlayer()
 {
 	srand(static_cast<unsigned long>(time(0)));
 	x = rand();
@@ -10,7 +10,7 @@ Enemy::Enemy()
 	z = rand();
 }
 
-char Enemy::Move(char x[3][3])
+char DummyBotPlayer::Move(char x[3][3])
 {
 	vector<char> options {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 	for (int i = 0; i <= 2; i++)
@@ -21,7 +21,7 @@ char Enemy::Move(char x[3][3])
 	return options[test];
 }
 
-unsigned long Enemy::randXoshiro()
+unsigned long DummyBotPlayer::randXoshiro()
 {  
 	unsigned long t;
 	x ^= x << 16;

@@ -123,7 +123,7 @@ void Game::Run()
 
 #ifndef DEBUG_RUN
 
-	Enemy enemy;
+	DummyBotPlayer enemy;
 	int runs_amount;
 	vector<string> experience;
 

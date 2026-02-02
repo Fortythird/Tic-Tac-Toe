@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
-#include "Enemy.h"
+#include "DummyBotPlayer.h"
 using namespace std;
 
 class Game

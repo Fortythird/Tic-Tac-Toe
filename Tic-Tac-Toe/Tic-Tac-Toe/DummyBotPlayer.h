@@ -3,12 +3,12 @@
 #include <iostream>
 using namespace std;
 
-class Enemy
+class DummyBotPlayer
 {
 private:
 	unsigned long randXoshiro();
 public:
-	Enemy();
+	DummyBotPlayer();
 	char Move(char x[3][3]);
 };
 
