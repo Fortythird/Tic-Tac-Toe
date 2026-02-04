@@ -214,22 +214,24 @@ void main()
 					{
 						t = true;
 						string next_step = "";
-						//cout << "Match with game " << EXP[q] << endl;
-						//cout << "Conertved scenario: " << st << endl;
+						cout << "Match with game " << EXP[q] << endl;
+						string converted_scenario = EXP[q];
 						next_step = EXP[q][st.size() + 1];
 						if (r != 0) for (int i = 0; i < 4 - r; i++)
 						{
+							converted_scenario = transform(converted_scenario);
 							next_step = transform(next_step);
 							st = transform(st);
 						}
+						cout << "Conertved scenario: " << converted_scenario << endl;
+						cout << "Current scenario: " << st << endl;
 						for (int i = 0; i <= 2; i++)
 							for (int j = 0; j <= 2; j++) if (field[i][j] == next_step[0])
 							{
 								st = st + field[i][j];
 								field[i][j] = 'X';
 							}
-						//cout << "Solution: " << st << endl;
-						//system("pause");
+						system("pause");
 						break;
 					}
 					st = transform(st);
@@ -308,7 +310,7 @@ void main()
 		st = st + 'N';
 		cout << "Draw!" << endl;
 	}
-	t = false;
+	/*t = false;
 	for (int i = 0; i < EXP.size(); i++) if (EXP[i] == st) t = true;	// Проверка сценария на известность
 	if (t == false)														// Запись сценария, если он новый
 	{
@@ -317,7 +319,7 @@ void main()
 		sort(EXP.begin(), EXP.end(), comp);
 		for (int i = 0; i < EXP.size(); i++) OUT << EXP[i] << endl;
 		OUT.close();
-	}
+	}*/
 	system("pause");
 	main();
 #endif
