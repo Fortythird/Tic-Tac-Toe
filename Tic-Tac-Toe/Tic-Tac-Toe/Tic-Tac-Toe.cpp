@@ -241,19 +241,42 @@ void main()
 			if (t == false)
 			{
 				for (int q = 0; q < EXP.size(); q++)
-					if ((EXP[q].find(st) == 0) && (isPlayerFirst && EXP[q][EXP[q].size() - 1] == 'V' || !isPlayerFirst && EXP[q][EXP[q].size() - 1] == 'D'))
+				{
+					for (int r = 0; r < 4; r++)
 					{
-						t = true;
-						for (int i = 0; i <= 2; i++)
-							for (int j = 0; j <= 2; j++) if (field[i][j] == EXP[q][k])
+						if ((EXP[q].find(st) == 0) && (isPlayerFirst && EXP[q][EXP[q].size() - 1] == 'V' || !isPlayerFirst && EXP[q][EXP[q].size() - 1] == 'D'))
+						{
+							t = true;
+							string next_step = "";
+							string converted_scenario = EXP[q];
+							next_step = EXP[q][st.size()];
+							if (r != 0) for (int i = 0; i < 4 - r; i++)
 							{
-								st = st + field[i][j];
-								field[i][j] = 'X';
+								converted_scenario = transform(converted_scenario);
+								next_step = transform(next_step);
+								st = transform(st);
 							}
-						break;
+							cout << "Current scenario: " << st << endl;
+							cout << "Match with game " << EXP[q] << endl;
+							cout << "Conertved scenario: " << converted_scenario << endl;
+							cout << "Next step is " << next_step << endl;
+							for (int i = 0; i <= 2; i++)
+								for (int j = 0; j <= 2; j++) if (field[i][j] == next_step[0])
+								{
+									st = st + field[i][j];
+									field[i][j] = 'X';
+								}
+							system("pause");
+							break;
+						}
+						st = transform(st);
 					}
+					if (t) break;
+				}
 				while (t == false)
 				{
+					cout << "No any matched scenarios" << endl;
+					system("pause");
 					srand(static_cast<unsigned int>(time(0)));
 					random = rand();
 					random = (random % 9) + 1;
