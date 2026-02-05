@@ -226,7 +226,11 @@ void main()
 				}
 			}
 
-			if (possible_steps.size() != 0 && possible_steps.size() != 9 - game_seq.size())
+			srand(static_cast<unsigned int>(time(0)));
+			random = rand();
+			random = (random % 9) + 1;
+
+			if (possible_steps.size() != 0 && possible_steps.size() != 9 - game_seq.size() && random < 4)
 			{
 				cout << "Found unused turn: " << possible_steps[0] << endl;
 				for (int i = 0; i <= 2; i++)
@@ -365,7 +369,7 @@ void main()
 			cout << "You lose!" << endl;
 		}
 	}
-	if ((END_GAME(field) == false) && DRAW(field) == true)			// Конец игры, ничья
+	else if ( DRAW(field) == true)									// Конец игры, ничья
 	{
 		game_seq = game_seq + 'N';
 		cout << "Draw!" << endl;
