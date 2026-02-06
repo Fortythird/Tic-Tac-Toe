@@ -219,7 +219,8 @@ void main()
 						string next_step = "";
 						next_step = EXP[q][st_to_rotate.size()];
 						if (r != 0) for (int i = 0; i < 4 - r; i++) next_step = transform(next_step);
-						if (possible_steps.find(next_step) != string::npos) possible_steps.erase(possible_steps.find(next_step), 1);
+						if (possible_steps.find(next_step) != string::npos) 
+							possible_steps.erase(possible_steps.find(next_step), 1);
 						break;
 					}
 					st_to_rotate = transform(st_to_rotate);
@@ -230,7 +231,7 @@ void main()
 			random = rand();
 			random = (random % 9) + 1;
 
-			if (possible_steps.size() != 0 && possible_steps.size() != 9 - game_seq.size() && random < 4)
+			if (possible_steps.size() != 0 && possible_steps.size() != 9 - game_seq.size() && random < 10)
 			{
 				cout << "Found unused turn: " << possible_steps[0] << endl;
 				for (int i = 0; i <= 2; i++)
@@ -246,40 +247,77 @@ void main()
 				t = false;
 				for (int q = 0; q < EXP.size(); q++)
 				{
-					string st_to_rotate = game_seq;
-					for (int r = 0; r < 4; r++)
+					if (EXP[q].size() == game_seq.size() + 2)
 					{
-						if ((EXP[q].find(st_to_rotate) == 0) && (isPlayerFirst && (EXP[q][EXP[q].size() - 1] == 'D') || !isPlayerFirst && (EXP[q][EXP[q].size() - 1] == 'V')))
+						string st_to_rotate = game_seq;
+						for (int r = 0; r < 4; r++)
 						{
-							t = true;
-							string next_step = "";
-							cout << "Match with game " << EXP[q] << endl;
-							string converted_scenario = EXP[q];
-							next_step = EXP[q][st_to_rotate.size() + 1];
-							if (r != 0) for (int i = 0; i < 4 - r; i++)
+							if ((EXP[q].find(st_to_rotate) == 0) && (isPlayerFirst && (EXP[q][EXP[q].size() - 1] == 'V') || !isPlayerFirst && (EXP[q][EXP[q].size() - 1] == 'D')))
 							{
-								converted_scenario = transform(converted_scenario);
-								next_step = transform(next_step);
-								st_to_rotate = transform(st_to_rotate);
-							}
-							cout << "Conertved scenario: " << converted_scenario << endl;
-							cout << "Current scenario: " << st_to_rotate << endl;
-							for (int i = 0; i <= 2; i++)
-								for (int j = 0; j <= 2; j++) if (field[i][j] == next_step[0])
+								t = true;
+								string next_step = "";
+								cout << "Match with game " << EXP[q] << endl;
+								string converted_scenario = EXP[q];
+								next_step = EXP[q][st_to_rotate.size()];
+								if (r != 0) for (int i = 0; i < 4 - r; i++)
 								{
-									game_seq = game_seq + field[i][j];
-									field[i][j] = 'X';
+									converted_scenario = transform(converted_scenario);
+									next_step = transform(next_step);
+									st_to_rotate = transform(st_to_rotate);
 								}
-							system("pause");
-							break;
+								cout << "Conertved scenario: " << converted_scenario << endl;
+								cout << "Current scenario: " << st_to_rotate << endl;
+								for (int i = 0; i <= 2; i++)
+									for (int j = 0; j <= 2; j++) if (field[i][j] == next_step[0])
+									{
+										game_seq = game_seq + field[i][j];
+										field[i][j] = 'X';
+									}
+								system("pause");
+								break;
+							}
+							st_to_rotate = transform(st_to_rotate);
 						}
-						st_to_rotate = transform(st_to_rotate);
+					}
+
+					if (EXP[q].size() == game_seq.size() + 3)
+					{
+						string st_to_rotate = game_seq;
+						for (int r = 0; r < 4; r++)
+						{
+							if ((EXP[q].find(st_to_rotate) == 0) && (isPlayerFirst && (EXP[q][EXP[q].size() - 1] == 'D') || !isPlayerFirst && (EXP[q][EXP[q].size() - 1] == 'V')))
+							{
+								t = true;
+								string next_step = "";
+								cout << "Match with game " << EXP[q] << endl;
+								string converted_scenario = EXP[q];
+								next_step = EXP[q][st_to_rotate.size() + 1];
+								if (r != 0) for (int i = 0; i < 4 - r; i++)
+								{
+									converted_scenario = transform(converted_scenario);
+									next_step = transform(next_step);
+									st_to_rotate = transform(st_to_rotate);
+								}
+								cout << "Conertved scenario: " << converted_scenario << endl;
+								cout << "Current scenario: " << st_to_rotate << endl;
+								for (int i = 0; i <= 2; i++)
+									for (int j = 0; j <= 2; j++) if (field[i][j] == next_step[0])
+									{
+										game_seq = game_seq + field[i][j];
+										field[i][j] = 'X';
+									}
+								system("pause");
+								break;
+							}
+							st_to_rotate = transform(st_to_rotate);
+						}
 					}
 					if (t) break;
 				}
+
 				if (t == false)
 				{
-					for (int q = 0; q < EXP.size(); q++)
+					for (int q = 0; q < EXP.size(); q++)									// Проверка сценариев побед
 					{
 						string st_to_rotate = game_seq;
 						for (int r = 0; r < 4; r++)
@@ -313,6 +351,7 @@ void main()
 						}
 						if (t) break;
 					}
+
 					while (t == false)
 					{
 						srand(static_cast<unsigned int>(time(0)));
